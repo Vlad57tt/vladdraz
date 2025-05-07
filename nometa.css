@@ -1,0 +1,67 @@
+/* Стили для предупреждения о мета-вопросах */
+.nometa-link {
+	color: var(--syntax-keyword);
+	text-decoration: none;
+	border-bottom: 1px dashed;
+	transition: color 0.3s ease;
+	font-weight: 500;
+}
+
+.nometa-link:hover {
+	color: var(--syntax-function-name);
+}
+
+.info-panel ul {
+	list-style-type: square;
+}
+
+.info-panel ul li {
+	margin-bottom: 8px;
+}
+
+/* Анимация для привлечения внимания к предупреждению */
+@keyframes highlight {
+	0% {
+		background-color: transparent;
+	}
+	50% {
+		background-color: rgba(255, 123, 114, 0.2);
+	}
+	100% {
+		background-color: transparent;
+	}
+}
+
+.highlight-warning {
+	padding: 10px;
+	border-radius: 6px;
+	border-left: 3px solid var(--syntax-keyword);
+	margin-top: 15px;
+	background-color: rgba(255, 255, 255, 0.05);
+}
+
+.animate-highlight {
+	animation: highlight 2s ease-in-out;
+}
+
+/* Стили для светлой темы */
+body.light-theme .highlight-warning {
+	border-left: 3px solid var(--syntax-keyword);
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .animate-highlight {
+	animation: highlight-light 2s ease-in-out;
+}
+
+@keyframes highlight-light {
+	0% {
+		background-color: transparent;
+	}
+	50% {
+		background-color: rgba(207, 34, 46, 0.1);
+	}
+	100% {
+		background-color: transparent;
+	}
+}
