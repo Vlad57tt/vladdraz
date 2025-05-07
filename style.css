@@ -19,6 +19,13 @@
 	--syntax-function-name: #d2a8ff; /* Фиолетовый */
 	--syntax-self: #ff7b72; /* Красный */
 	--syntax-attribute: #79c0ff; /* Синий */
+    
+    /* Дополнительные переменные для оформления */
+    --accent-color: #2196f3; /* Акцентный цвет */
+    --hover-color: #64b5f6; /* Цвет при наведении */
+    --shadow-color: rgba(0, 0, 0, 0.3); /* Цвет теней */
+    --gradient-start: #3c4048; /* Начало градиента */
+    --gradient-end: #282c34; /* Конец градиента */
 }
 
 /* Переопределяем переменные для светлой темы */
@@ -42,6 +49,13 @@ body.light-theme {
 	--syntax-function-name: #8250df; /* Фиолетовый */
 	--syntax-self: #cf222e; /* Красный */
 	--syntax-attribute: #0a3069; /* Темно-синий */
+    
+    /* Дополнительные переменные для оформления в светлой теме */
+    --accent-color: #1976d2; /* Акцентный цвет */
+    --hover-color: #42a5f5; /* Цвет при наведении */
+    --shadow-color: rgba(0, 0, 0, 0.1); /* Цвет теней */
+    --gradient-start: #ffffff; /* Начало градиента */
+    --gradient-end: #f0f2f5; /* Конец градиента */
 }
 
 /* Основные стили, использующие переменные */
@@ -60,6 +74,8 @@ body {
 	min-height: 100vh;
 	box-sizing: border-box;
 	transition: background-color 0.3s ease, color 0.3s ease;
+    background-image: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
+    background-attachment: fixed;
 }
 
 .theme-switcher {
@@ -68,11 +84,18 @@ body {
 	align-items: center;
 	color: var(--text-color);
 	transition: color 0.3s ease;
+    padding: 8px 15px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 2px 5px var(--shadow-color);
 }
 
 .theme-label {
 	margin: 0 4px;
 	font-size: 0.9em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Стилизация переключателя (без изменений) */
@@ -81,6 +104,7 @@ body {
 	display: inline-block;
 	width: 40px;
 	height: 20px;
+    margin: 0 8px;
 }
 .switch input {
 	opacity: 0;
@@ -116,7 +140,7 @@ body {
 	transition: 0.4s;
 }
 input:checked + .slider {
-	background-color: #2196f3;
+	background-color: var(--accent-color);
 }
 input:checked + .slider:before {
 	-webkit-transform: translateX(20px);
@@ -151,9 +175,9 @@ body.dark-theme .light-label {
 .editor-container {
 	display: block;
 	background-color: var(--editor-bg);
-	border-radius: 8px;
+	border-radius: 12px;
 	overflow: hidden;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 8px 20px var(--shadow-color);
 	border: 1px solid var(--border-color); /* Рамка */
 
 	/* Flex свойства для десктопа: */
@@ -163,6 +187,12 @@ body.dark-theme .light-label {
 
 	margin: 0;
 	min-width: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.editor-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px var(--shadow-color);
 }
 
 .code-content {
@@ -177,24 +207,16 @@ body.dark-theme .light-label {
 	line-height: 1.5;
 	padding: 0;
 	margin: 0;
-	white-space: pre-wrap;
-	word-wrap: break-word;
+	white-space: nowrap; /* Предотвращаем перенос строк */
+	overflow-x: auto; /* Добавляем горизонтальную прокрутку */
 	display: flex;
 	align-items: baseline;
+    padding: 2px 0;
+    transition: background-color 0.2s ease;
 }
 
-/* Специальный класс для строк с длинными ссылками */
-.code-line-wrap {
-	flex-wrap: wrap;
-}
-
-.code-line-wrap .line-num {
-	width: 100%;
-	margin-bottom: 4px;
-}
-
-.code-line-wrap .py-string:last-child {
-	padding-left: 50px; /* Отступ для выравнивания при переносе */
+.code-content div:hover {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .line-num {
@@ -207,11 +229,14 @@ body.dark-theme .light-label {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+    opacity: 0.7;
+    font-size: 0.9em;
 }
 
 /* Подсветка синтаксиса Python (без изменений) */
 .py-keyword {
 	color: var(--syntax-keyword);
+    font-weight: 600;
 }
 .py-string {
 	color: var(--syntax-string);
@@ -222,6 +247,7 @@ body.dark-theme .light-label {
 }
 .py-number {
 	color: var(--syntax-number);
+    font-weight: 500;
 }
 .py-variable {
 	color: var(--syntax-variable);
@@ -231,12 +257,15 @@ body.dark-theme .light-label {
 }
 .py-class-name {
 	color: var(--syntax-class-name);
+    font-weight: 600;
 }
 .py-function-name {
 	color: var(--syntax-function-name);
+    font-weight: 500;
 }
 .py-self {
 	color: var(--syntax-self);
+    font-style: italic;
 }
 .py-attribute {
 	color: var(--syntax-attribute);
@@ -258,32 +287,72 @@ body.dark-theme .light-label {
 	color: var(--info-text-color);
 	font-family: 'Roboto', sans-serif; /* Обычный шрифт для текста */
 	line-height: 1.6;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Тень */
+	padding: 25px;
+	border-radius: 12px;
+	box-shadow: 0 8px 20px var(--shadow-color); /* Тень */
 	border: 1px solid var(--border-color); /* Рамка */
 	overflow: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px var(--shadow-color);
 }
 
 .info-panel h2,
-.info-panel h3 {
+.info-panel h3,
+.info-panel h4 {
 	color: var(--text-color);
 	margin-top: 0;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 	font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.info-panel h3:after,
+.info-panel h4:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
+
+.info-panel h4:after {
+    width: 30px;
+    height: 2px;
 }
 
 .info-panel p {
 	margin-bottom: 15px;
+    line-height: 1.7;
 }
 
 .info-panel ul {
 	margin-bottom: 15px;
 	padding-left: 20px;
+    list-style-type: none;
 }
 
 .info-panel li {
-	margin-bottom: 5px;
+	margin-bottom: 8px;
+    position: relative;
+    padding-left: 5px;
+}
+
+.info-panel li:before {
+    content: '•';
+    position: absolute;
+    left: -15px;
+    color: var(--accent-color);
+    font-weight: bold;
 }
 
 /* Стили для ссылок в коде */
@@ -291,10 +360,48 @@ body.dark-theme .light-label {
 	color: inherit;
 	text-decoration: none;
 	border-bottom: 1px dashed;
+    transition: opacity 0.2s ease, border-bottom 0.2s ease;
 }
 
 .py-string a:hover {
-	opacity: 0.8;
+	opacity: 0.9;
+    border-bottom: 1px solid;
+}
+
+/* Стили для предупреждения */
+.highlight-warning {
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info {
+    margin-top: 30px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+}
+
+.note {
+    font-style: italic;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* Стили для футера */
+footer {
+    margin-top: 30px;
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.85em;
+    color: var(--info-text-color);
+    border-top: 1px solid var(--border-color);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* *** АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ *** */
@@ -340,11 +447,18 @@ body.dark-theme .light-label {
 		width: 30px; /* Чуть меньше ширина для номеров строк на мобильных */
 		margin-right: 10px;
 	}
-
-	/* Улучшаем отображение строк с длинными ссылками на мобильных */
-	.code-line-wrap .py-string:last-child {
-		padding-left: 40px;
-	}
+    
+    /* Отключаем эффекты наведения на мобильных */
+    .editor-container:hover,
+    .info-panel:hover {
+        transform: none;
+        box-shadow: 0 8px 20px var(--shadow-color);
+    }
+    
+    footer {
+        margin-top: 20px;
+        padding: 10px 0;
+    }
 }
 
 /* Опционально: еще меньшие отступы на совсем маленьких экранах */
@@ -366,51 +480,73 @@ body.dark-theme .light-label {
 		width: 25px; /* Еще меньше ширина для номеров */
 		margin-right: 8px;
 	}
-
-	/* Еще меньше отступ для очень маленьких экранов */
-	.code-line-wrap .py-string:last-child {
-		padding-left: 30px;
-	}
+    
+    .highlight-warning,
+    .contact-info {
+        padding: 10px;
+    }
+    
+    footer {
+        font-size: 0.8em;
+        padding: 8px 0;
+    }
 }
 
 /* Стилизация скроллбара (для editor и info-panel) */
 .editor-container::-webkit-scrollbar,
 .info-panel::-webkit-scrollbar,
-.code-content::-webkit-scrollbar {
-	height: 8px;
-	width: 8px;
+.code-content::-webkit-scrollbar,
+.code-content div::-webkit-scrollbar {
+	height: 6px;
+	width: 6px;
 	background-color: transparent;
 }
 
 .editor-container::-webkit-scrollbar-thumb,
 .info-panel::-webkit-scrollbar-thumb,
-.code-content::-webkit-scrollbar-thumb {
+.code-content::-webkit-scrollbar-thumb,
+.code-content div::-webkit-scrollbar-thumb {
 	background-color: #555;
-	border-radius: 4px;
+	border-radius: 3px;
 }
 
 body.light-theme .editor-container::-webkit-scrollbar-thumb,
 body.light-theme .info-panel::-webkit-scrollbar-thumb,
-body.light-theme .code-content::-webkit-scrollbar-thumb {
+body.light-theme .code-content::-webkit-scrollbar-thumb,
+body.light-theme .code-content div::-webkit-scrollbar-thumb {
 	background-color: #ccc; /* Цвет в светлой теме */
 }
 
 .editor-container::-webkit-scrollbar-thumb:hover,
 .info-panel::-webkit-scrollbar-thumb:hover,
-.code-content::-webkit-scrollbar-thumb:hover {
+.code-content::-webkit-scrollbar-thumb:hover,
+.code-content div::-webkit-scrollbar-thumb:hover {
 	background-color: #777;
 }
 
 /* Стилизация скроллбара (Firefox) */
 .editor-container,
 .info-panel,
-.code-content {
+.code-content,
+.code-content div {
 	scrollbar-width: thin;
 	scrollbar-color: #555 transparent;
 }
 
 body.light-theme .editor-container,
 body.light-theme .info-panel,
-body.light-theme .code-content {
+body.light-theme .code-content,
+body.light-theme .code-content div {
 	scrollbar-color: #ccc transparent;
+}
+
+/* Анимация для курсора */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background-color: var(--accent-color);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
 }

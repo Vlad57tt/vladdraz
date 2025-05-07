@@ -79,17 +79,53 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (highlightWarning) {
                                 highlightWarning.classList.add('animate-highlight');
                             }
+                            
+                            // Добавляем эффект наведения для строк кода
+                            const allCodeLines = document.querySelectorAll('.code-content div');
+                            allCodeLines.forEach(line => {
+                                line.addEventListener('mouseenter', function() {
+                                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                                });
+                                line.addEventListener('mouseleave', function() {
+                                    this.style.backgroundColor = 'transparent';
+                                });
+                            });
                         }, 1000);
                     }, 500);
                 }
             }, lineDelay);
             
             // Увеличиваем задержку для следующей строки
-            // Случайная задержка между 100 и 300 мс для более реалистичного эффекта
-            lineDelay += Math.floor(Math.random() * 200) + 100;
+            // Случайная задержка между 80 и 200 мс для более реалистичного эффекта
+            lineDelay += Math.floor(Math.random() * 120) + 80;
         });
     }
 
     // Запускаем анимацию с небольшой задержкой после загрузки страницы
-    setTimeout(typeCode, 800);
+    setTimeout(typeCode, 600);
+    
+    // Добавляем обработчики для ссылок в коде
+    document.querySelectorAll('.py-string a').forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.borderBottom = '1px solid';
+            this.style.opacity = '0.9';
+        });
+        link.addEventListener('mouseleave', function() {
+            this.style.borderBottom = '1px dashed';
+            this.style.opacity = '1';
+        });
+    });
+    
+    // Добавляем эффект для панели информации
+    const infoPanel = document.querySelector('.info-panel');
+    if (infoPanel) {
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            if (scrollPosition > 50) {
+                infoPanel.style.transform = 'translateY(-5px)';
+            } else {
+                infoPanel.style.transform = 'translateY(0)';
+            }
+        });
+    }
 });

@@ -1,22 +1,57 @@
 /* Стили для предупреждения о мета-вопросах */
 .nometa-link {
-	color: var(--syntax-keyword);
+	color: var(--accent-color);
 	text-decoration: none;
 	border-bottom: 1px dashed;
-	transition: color 0.3s ease;
+	transition: color 0.3s ease, border-bottom 0.3s ease;
 	font-weight: 500;
+	position: relative;
+	padding: 2px 4px;
+	border-radius: 3px;
 }
 
 .nometa-link:hover {
-	color: var(--syntax-function-name);
+	color: var(--hover-color);
+	border-bottom: 1px solid;
+	background-color: rgba(33, 150, 243, 0.1);
+}
+
+.nometa-link:after {
+	content: '↗';
+	font-size: 0.8em;
+	margin-left: 3px;
+	opacity: 0;
+	transition: opacity 0.3s ease, transform 0.3s ease;
+	display: inline-block;
+	transform: translateX(-5px);
+}
+
+.nometa-link:hover:after {
+	opacity: 1;
+	transform: translateX(0);
 }
 
 .info-panel ul {
-	list-style-type: square;
+	list-style-type: none;
 }
 
 .info-panel ul li {
-	margin-bottom: 8px;
+	margin-bottom: 10px;
+	position: relative;
+	padding-left: 5px;
+	transition: transform 0.2s ease;
+}
+
+.info-panel ul li:hover {
+	transform: translateX(3px);
+}
+
+.info-panel ul li:before {
+	content: '•';
+	position: absolute;
+	left: -15px;
+	color: var(--accent-color);
+	font-weight: bold;
 }
 
 /* Анимация для привлечения внимания к предупреждению */
@@ -33,11 +68,18 @@
 }
 
 .highlight-warning {
-	padding: 10px;
-	border-radius: 6px;
-	border-left: 3px solid var(--syntax-keyword);
-	margin-top: 15px;
+	padding: 15px;
+	border-radius: 8px;
+	border-left: 4px solid var(--accent-color);
+	margin-top: 20px;
 	background-color: rgba(255, 255, 255, 0.05);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.highlight-warning:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .animate-highlight {
@@ -46,8 +88,8 @@
 
 /* Стили для светлой темы */
 body.light-theme .highlight-warning {
-	border-left: 3px solid var(--syntax-keyword);
-	background-color: rgba(0, 0, 0, 0.05);
+	border-left: 4px solid var(--accent-color);
+	background-color: rgba(0, 0, 0, 0.03);
 }
 
 body.light-theme .animate-highlight {
@@ -59,7 +101,7 @@ body.light-theme .animate-highlight {
 		background-color: transparent;
 	}
 	50% {
-		background-color: rgba(207, 34, 46, 0.1);
+		background-color: rgba(33, 150, 243, 0.1);
 	}
 	100% {
 		background-color: transparent;
