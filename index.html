@@ -2,16 +2,23 @@
 <html lang="ru">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
 		<title>Биография в коде</title>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<!-- Элемент Canvas для фоновой анимации -->
 		<canvas id="background-canvas"></canvas>
-
 		<div class="code-container">
 			<pre><code id="bio-code"></code></pre>
+		</div>
+
+		<div id="modal-overlay"></div>
+		<div id="image-modal">
+			<span id="close-modal">&times;</span>
+			<img src="Image.jpg" alt="Popup Image" />
 		</div>
 
 		<script src="script.js"></script>

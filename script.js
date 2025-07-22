@@ -1,58 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-	// --- ЧАСТЬ 1: АНИМАЦИЯ ПЕЧАТИ (Осталась без изменений) ---
 	const codeElement = document.getElementById('bio-code')
 	const typingSpeed = 30
 	const lineDelay = 150
 
+	// Массив строк с биографией, ссылки оформлены как <a>
 	const bioCodeLines = [
-		"<span class='comment'># -*- coding: utf-8 -*-</span>",
-		"<span class='comment'># Загрузка жизненно важных модулей</span>",
+		"<span class='comment'># Загрузка жизни</span>",
 		"<span class='keyword'>from</span> datetime <span class='keyword'>import</span> date",
+		"<span class='keyword'>from</span> config <span class='keyword'>import</span> *",
 		'',
 		"<span class='keyword'>class</span> <span class='class-name'>Person</span>:",
 		"    <span class='comment'># Инициализация личности</span>",
 		"    <span class='keyword'>def</span> <span class='function-name'>__init__</span>(<span class='variable'>self</span>):",
-		"        <span class='variable'>self</span>.name = <span class='string'>'Алексей'</span>",
-		"        <span class='variable'>self</span>.surname = <span class='string'>'Иванов'</span>",
-		"        <span class='variable'>self</span>.birth_date = date(<span class='number'>1998</span>, <span class='number'>5</span>, <span class='number'>21</span>)",
-		"        <span class='variable'>self</span>.location = <span class='string'>'Санкт-Петербург, Россия'</span>",
+		"        <span class='variable'>self</span>.name = <span class='string'>'Vladislav'</span>",
+		"        <span class='variable'>self</span>.username = <span class='string'>'Vladdraz and others'</span>",
+		"        <span class='variable'>self</span>.location = <span class='string'>'Бомбас, Россия'</span>",
 		"        <span class='variable'>self</span>.contacts = {",
-		"            <span class='string'>'email'</span>: <span class='string'>'alex.ivanov@email.com'</span>,",
-		"            <span class='string'>'telegram'</span>: <span class='string'>'@alexdev'</span>",
+		"            <span class='string'>'Telegram'</span>: <a class='string' href='https://t.me/trainee_developer' target='_blank'>'@trainee_developer'</a>,",
+		"            <span class='string'>'X (ex Twitter)'</span>: <a class='string' href='https://x.com/Vladdraaz' target='_blank'>'@Vladdraaz'</a>,",
+		"            <span class='string'>'Steam'</span>: <a class='string' href='https://steamcommunity.com/id/pps_/' target='_blank'>'Parker'</a>,",
+		"            <span class='string'>'Max??!!??'</span>: <a class='string' id='image-trigger' href='#' target='_blank'>'Click to message with me!'</a>",
 		'        }',
-		"        <span class='variable'>self</span>.skill_stack = []",
-		'',
-		"    <span class='comment'># Определение образовательной траектории</span>",
-		"    <span class='keyword'>def</span> <span class='function-name'>add_education</span>(<span class='variable'>self</span>, university, faculty, year):",
-		"        <span class='variable'>self</span>.education = <span class='string'>f'{university}, {faculty} ({year})'</span>",
-		'',
-		"    <span class='comment'># Накопление профессиональных навыков</span>",
-		"    <span class='keyword'>def</span> <span class='function-name'>acquire_skills</span>(<span class='variable'>self</span>, skills):",
-		"        <span class='variable'>self</span>.skill_stack.extend(skills)",
-		'',
-		"    <span class='comment'># Вывод итоговой информации</span>",
-		"    <span class='keyword'>def</span> <span class='function-name'>get_summary</span>(<span class='variable'>self</span>):",
-		"        age = (date.today() - <span class='variable'>self</span>.birth_date).days // <span class='number'>365</span>",
-		"        <span class='function-name'>print</span>(<span class='string'>f'USER: {<span class='variable'>self</span>.name} {<span class='variable'>self</span>.surname}, {age} лет'</span>)",
-		"        <span class='function-name'>print</span>(<span class='string'>f'LOCATION: {<span class='variable'>self</span>.location}'</span>)",
-		"        <span class='function-name'>print</span>(<span class='string'>f'EDUCATION: {<span class='variable'>self</span>.education}'</span>)",
-		"        <span class='function-name'>print</span>(<span class='string'>'SKILLS:'</span>)",
-		"        <span class='keyword'>for</span> skill <span class='keyword'>in</span> <span class='variable'>self</span>.skill_stack:",
-		"            <span class='function-name'>print</span>(<span class='string'>f'  - {skill}'</span>)",
-		'',
-		"<span class='comment'># --- Исполняемый блок ---</span>",
-		'me = Person()',
-		'me.add_education(',
-		"    university=<span class='string'>'СПбГУ'</span>,",
-		"    faculty=<span class='string'>'Информационные технологии'</span>,",
-		"    year=<span class='number'>2020</span>",
-		')',
-		'me.acquire_skills([',
-		"    <span class='string'>'Python (Django, FastAPI)'</span>,",
-		"    <span class='string'>'JavaScript (React, Node.js)'</span>,",
-		"    <span class='string'>'SQL & NoSQL Databases'</span>,",
-		"    <span class='string'>'Docker & CI/CD'</span>",
-		'])',
+		"        <span class='variable'>self</span>.skill_stack = [zero]",
 		'',
 		"me.get_summary() <span class='comment'># Запуск системы</span>",
 	]
@@ -90,43 +59,35 @@ document.addEventListener('DOMContentLoaded', () => {
 		typeChar()
 	}
 
-	// --- ЧАСТЬ 2: АНИМАЦИЯ ФОНА В СТИЛЕ "МАТРИЦЫ" ---
+	// Хакерский фон: синие и зелёные цифры и символы
 	const canvas = document.getElementById('background-canvas')
 	const ctx = canvas.getContext('2d')
-
 	let drops
-	let fontSize = 16
+	let fontSize = 18
 	let columns
+	const green = '#00ff99'
+	const blue = '#00bfff'
+	const characters = '01 23456789'
+	const symbols = '!@#$%^&*()_+-=<>?'
+	const charArray = (characters + symbols).split('')
 
-	// Символы для анимации
-	const characters =
-		'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	const charArray = characters.split('')
-
-	function setupMatrix() {
+	function setupHackerBG() {
 		canvas.width = window.innerWidth
 		canvas.height = window.innerHeight
 		columns = Math.floor(canvas.width / fontSize)
 		drops = []
-		for (let x = 0; x < columns; x++) {
-			drops[x] = 1
-		}
+		for (let x = 0; x < columns; x++) drops[x] = 1
 	}
 
-	function drawMatrix() {
-		// Полупрозрачный фон для создания эффекта затухания
-		ctx.fillStyle = 'rgba(26, 32, 44, 0.05)'
+	function drawHackerBG() {
+		ctx.fillStyle = 'rgba(15,32,39,0.08)'
 		ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-		ctx.fillStyle = '#4ec9b0' // Цвет символов (бирюзовый)
 		ctx.font = fontSize + 'px monospace'
-
 		for (let i = 0; i < drops.length; i++) {
 			const text = charArray[Math.floor(Math.random() * charArray.length)]
+			ctx.fillStyle = Math.random() > 0.5 ? green : blue
 			ctx.fillText(text, i * fontSize, drops[i] * fontSize)
-
-			// Сбрасываем "каплю" наверх после того, как она пересечет экран
-			if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+			if (drops[i] * fontSize > canvas.height && Math.random() > 0.96) {
 				drops[i] = 0
 			}
 			drops[i]++
@@ -134,21 +95,57 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	let animationFrameId
-	function animateMatrix() {
-		drawMatrix()
-		animationFrameId = requestAnimationFrame(animateMatrix)
+	function animateHackerBG() {
+		drawHackerBG()
+		animationFrameId = requestAnimationFrame(animateHackerBG)
 	}
 
 	function init() {
-		if (animationFrameId) {
-			cancelAnimationFrame(animationFrameId)
+		if (animationFrameId) cancelAnimationFrame(animationFrameId)
+		setupHackerBG()
+		animateHackerBG()
+	}
+
+	function setupModal() {
+		const modalOverlay = document.getElementById('modal-overlay')
+		const imageModal = document.getElementById('image-modal')
+		const closeModal = document.getElementById('close-modal')
+
+		const hideModal = () => {
+			imageModal.style.display = 'none'
+			modalOverlay.style.opacity = '0'
+			setTimeout(() => {
+				modalOverlay.style.display = 'none'
+			}, 500) // Время должно совпадать с transition в CSS
 		}
-		setupMatrix()
-		animateMatrix()
+
+		codeElement.addEventListener('click', e => {
+			const trigger = e.target.closest('#image-trigger')
+			if (!trigger) return
+
+			e.preventDefault()
+			modalOverlay.style.display = 'block'
+			setTimeout(() => {
+				modalOverlay.style.opacity = '1'
+			}, 10) // Небольшая задержка для срабатывания transition
+
+			setTimeout(() => {
+				imageModal.style.display = 'block'
+			}, 1000)
+		})
+
+		if (closeModal) {
+			closeModal.addEventListener('click', hideModal)
+		}
+
+		if (modalOverlay) {
+			modalOverlay.addEventListener('click', hideModal)
+		}
 	}
 
 	window.addEventListener('resize', init)
 
 	init()
-	typeLine() // Запуск анимации печати
+	typeLine()
+	setupModal()
 })
