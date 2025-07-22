@@ -1,552 +1,146 @@
-:root {
-	/* Переменные для темной темы (по умолчанию) */
-	--bg-color: #2d313a; /* Немного черно-серый фон body */
-	--editor-bg: #3c4048; /* Фон редактора */
-	--info-panel-bg: #282c34; /* Чуть темнее фон для панели справа */
-	--text-color: #e6edf3; /* Светлый текст для темной темы (для кода) */
-	--info-text-color: #abb2bf; /* Цвет текста для панели справа (можно сделать чуть менее ярким) */
-	--line-numbers-color: #8b949e; /* Серый для номеров строк */
-	--border-color: #4a505c; /* Цвет рамки/разделителя */
-
-	/* Цвета синтаксиса для темной темы*/
-	--syntax-keyword: #ff7b72; /* Красный */
-	--syntax-string: #a5d6ff; /* Голубой */
-	--syntax-comment: #8b949e; /* Серый */
-	--syntax-number: #a5d6ff; /* Голубой */
-	--syntax-variable: #d2a8ff; /* Фиолетовый */
-	--syntax-operator: #e6edf3; /* Белый */
-	--syntax-class-name: #f0a65b; /* Оранжевый */
-	--syntax-function-name: #d2a8ff; /* Фиолетовый */
-	--syntax-self: #ff7b72; /* Красный */
-	--syntax-attribute: #79c0ff; /* Синий */
-    
-    /* Дополнительные переменные для оформления */
-    --accent-color: #2196f3; /* Акцентный цвет */
-    --hover-color: #64b5f6; /* Цвет при наведении */
-    --shadow-color: rgba(0, 0, 0, 0.3); /* Цвет теней */
-    --gradient-start: #3c4048; /* Начало градиента */
-    --gradient-end: #282c34; /* Конец градиента */
-}
-
-/* Переопределяем переменные для светлой темы */
-body.light-theme {
-	--bg-color: #f6f8fa; /* Светлый фон body */
-	--editor-bg: #ffffff; /* Белый фон редактора */
-	--info-panel-bg: #eef1f4; /* Чуть темнее фон для панели справа */
-	--text-color: #24292f; /* Темный текст для светлой темы (для кода) */
-	--info-text-color: #57606a; /* Цвет текста для панели справа */
-	--line-numbers-color: #a0a0a0; /* Серый для номеров строк */
-	--border-color: #d0d7de; /* Цвет рамки/разделителя */
-
-	/* Цвета синтаксиса для светлой темы*/
-	--syntax-keyword: #cf222e; /* Красный */
-	--syntax-string: #0a3069; /* Темно-синий */
-	--syntax-comment: #6e7781; /* Серый */
-	--syntax-number: #0a3069; /* Темно-синий */
-	--syntax-variable: #8250df; /* Фиолетовый */
-	--syntax-operator: #24292f; /* Черный */
-	--syntax-class-name: #953800; /* Коричневый */
-	--syntax-function-name: #8250df; /* Фиолетовый */
-	--syntax-self: #cf222e; /* Красный */
-	--syntax-attribute: #0a3069; /* Темно-синий */
-    
-    /* Дополнительные переменные для оформления в светлой теме */
-    --accent-color: #1976d2; /* Акцентный цвет */
-    --hover-color: #42a5f5; /* Цвет при наведении */
-    --shadow-color: rgba(0, 0, 0, 0.1); /* Цвет теней */
-    --gradient-start: #ffffff; /* Начало градиента */
-    --gradient-end: #f0f2f5; /* Конец градиента */
-}
-
-/* Основные стили, использующие переменные */
 body {
-	margin: 0;
-	padding: 15px;
-	background-color: var(--bg-color);
-	color: var(--text-color);
-	font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono',
-		monospace; /* Шрифт для кода по умолчанию */
-	line-height: 1.5;
+	background-color: #1a202c; /* Темный сине-серый фон */
+	color: #d4d4d4;
+	font-family: 'Consolas', 'Menlo', 'monospace';
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
+	margin: 0;
+	padding: 20px;
 	box-sizing: border-box;
-	transition: background-color 0.3s ease, color 0.3s ease;
-    background-image: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
-    background-attachment: fixed;
+	overflow: hidden; /* Убираем возможный скролл от canvas */
 }
 
-.theme-switcher {
-	margin-bottom: 15px;
-	display: flex;
-	align-items: center;
-	color: var(--text-color);
-	transition: color 0.3s ease;
-    padding: 8px 15px;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    box-shadow: 0 2px 5px var(--shadow-color);
-}
-
-.theme-label {
-	margin: 0 4px;
-	font-size: 0.9em;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Стилизация переключателя (без изменений) */
-.switch {
-	position: relative;
-	display: inline-block;
-	width: 40px;
-	height: 20px;
-    margin: 0 8px;
-}
-.switch input {
-	opacity: 0;
-	width: 0;
-	height: 0;
-}
-.slider {
-	position: absolute;
-	cursor: pointer;
+/* --- Стили для фонового Canvas --- */
+#background-canvas {
+	position: fixed;
 	top: 0;
 	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: #ccc;
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
-}
-.light-theme .slider {
-	background-color: #ccc;
-}
-.dark-theme .slider {
-	background-color: #555;
-}
-.slider:before {
-	position: absolute;
-	content: '';
-	height: 16px;
-	width: 16px;
-	left: 2px;
-	bottom: 2px;
-	background-color: white;
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
-}
-input:checked + .slider {
-	background-color: var(--accent-color);
-}
-input:checked + .slider:before {
-	-webkit-transform: translateX(20px);
-	-ms-transform: translateX(20px);
-	transform: translateX(20px);
-}
-.slider.round {
-	border-radius: 20px;
-}
-.slider.round:before {
-	border-radius: 50%;
-}
-body.light-theme .dark-label {
-	display: none;
-}
-body.dark-theme .light-label {
-	display: none;
-}
-
-/* Контейнер для двух колонок: редактор (слева) + инфо-панель (справа) */
-.main-layout {
-	display: flex;
-	flex-direction: row;
 	width: 100%;
-	max-width: 1100px;
-	gap: 25px;
-	align-items: flex-start;
-	margin: 0 auto;
-	flex-grow: 1;
+	height: 100%;
+	z-index: 1; /* Canvas находится на самом нижнем слое */
 }
 
-.editor-container {
-	display: block;
-	background-color: var(--editor-bg);
-	border-radius: 12px;
-	overflow: hidden;
-	box-shadow: 0 8px 20px var(--shadow-color);
-	border: 1px solid var(--border-color); /* Рамка */
-
-	/* Flex свойства для десктопа: */
-	flex-basis: 600px;
-	flex-grow: 0;
-	flex-shrink: 1;
-
-	margin: 0;
-	min-width: 0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.editor-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px var(--shadow-color);
-}
-
-.code-content {
-	padding: 15px 20px;
-	overflow: auto;
-	line-height: 1.5;
-	min-height: 400px; /* Минимальная высота для контейнера кода */
-}
-
-/* Стили для каждой строки текста (div внутри code-content) */
-.code-content div {
-	line-height: 1.5;
-	padding: 0;
-	margin: 0;
-	white-space: nowrap; /* Предотвращаем перенос строк */
-	overflow-x: auto; /* Добавляем горизонтальную прокрутку */
+/* --- Контейнер для изображения и диалогов --- */
+#background-image-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	display: flex;
-	align-items: baseline;
-    padding: 2px 0;
-    transition: background-color 0.2s ease;
+	justify-content: center;
+	align-items: center;
+	z-index: 2; /* Находится над canvas */
+	pointer-events: none; /* Позволяет кликать сквозь контейнер */
 }
 
-.code-content div:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+.background-image {
+	max-width: 50%;
+	max-height: 50%;
+	opacity: 0.15; /* Делаем изображение полупрозрачным */
+	object-fit: contain;
 }
 
-.line-num {
-	flex-shrink: 0;
-	width: 35px;
-	text-align: right;
-	margin-right: 15px;
-	color: var(--line-numbers-color);
-	user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-    opacity: 0.7;
-    font-size: 0.9em;
+.dialog-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 
-/* Подсветка синтаксиса Python (без изменений) */
-.py-keyword {
-	color: var(--syntax-keyword);
-    font-weight: 600;
-}
-.py-string {
-	color: var(--syntax-string);
-}
-.py-comment {
-	color: var(--syntax-comment);
-	font-style: italic;
-}
-.py-number {
-	color: var(--syntax-number);
-    font-weight: 500;
-}
-.py-variable {
-	color: var(--syntax-variable);
-}
-.py-operator {
-	color: var(--syntax-operator);
-}
-.py-class-name {
-	color: var(--syntax-class-name);
-    font-weight: 600;
-}
-.py-function-name {
-	color: var(--syntax-function-name);
-    font-weight: 500;
-}
-.py-self {
-	color: var(--syntax-self);
-    font-style: italic;
-}
-.py-attribute {
-	color: var(--syntax-attribute);
+.speech-bubble {
+	position: absolute;
+	background-color: rgba(45, 55, 72, 0.8);
+	color: #e2e8f0;
+	padding: 10px 15px;
+	border-radius: 15px;
+	border: 1px solid #4a5568;
+	font-size: 16px;
+	max-width: 200px;
 }
 
-/* Стиль для пустых строк */
-.code-content div:empty {
-	min-height: 1.5em;
+/* Позиционирование диалогов */
+.boykisser-bubble {
+	top: 35%;
+	left: 55%;
 }
 
-/* Блок справа - инфо-панель */
-.info-panel {
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 300px;
-	min-width: 300px;
+.mge-bubble-1 {
+	top: 45%;
+	left: 30%;
+}
 
-	background-color: var(--info-panel-bg);
-	color: var(--info-text-color);
-	font-family: 'Roboto', sans-serif; /* Обычный шрифт для текста */
-	line-height: 1.6;
+.mge-bubble-2 {
+	top: 60%;
+	left: 40%;
+}
+
+.code-container {
+	background-color: rgba(26, 32, 44, 0.8); /* Полупрозрачный фон */
+	border: 1px solid #2d3748;
+	border-radius: 8px;
 	padding: 25px;
-	border-radius: 12px;
-	box-shadow: 0 8px 20px var(--shadow-color); /* Тень */
-	border: 1px solid var(--border-color); /* Рамка */
+	width: 100%;
+	max-width: 800px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 	overflow: auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+	backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(5px);
+	z-index: 3; /* Контейнер с кодом поверх всего */
+	position: relative; /* Чтобы z-index сработал */
 }
 
-.info-panel:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px var(--shadow-color);
+#bio-code {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.6;
+	white-space: pre;
 }
 
-.info-panel h2,
-.info-panel h3,
-.info-panel h4 {
-	color: var(--text-color);
-	margin-top: 0;
-	margin-bottom: 15px;
-	font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    position: relative;
-    padding-bottom: 10px;
+/* --- Стили для подсветки синтаксиса --- */
+.comment {
+	color: #6a9955;
+}
+.keyword {
+	color: #569cd6;
+}
+.class-name {
+	color: #4ec9b0;
+}
+.function-name {
+	color: #dcdcaa;
+}
+.string {
+	color: #ce9178;
+}
+.number {
+	color: #b5cea8;
+}
+.variable {
+	color: #9cdcfe;
+}
+.operator {
+	color: #d4d4d4;
 }
 
-.info-panel h3:after,
-.info-panel h4:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: var(--accent-color);
-    border-radius: 3px;
+/* --- Анимация курсора --- */
+.cursor {
+	display: inline-block;
+	background-color: #d4d4d4;
+	width: 10px;
+	height: 1.2em;
+	animation: blink 1s infinite;
+	vertical-align: bottom;
+	margin-left: 2px;
 }
 
-.info-panel h4:after {
-    width: 30px;
-    height: 2px;
-}
-
-.info-panel p {
-	margin-bottom: 15px;
-    line-height: 1.7;
-}
-
-.info-panel ul {
-	margin-bottom: 15px;
-	padding-left: 20px;
-    list-style-type: none;
-}
-
-.info-panel li {
-	margin-bottom: 8px;
-    position: relative;
-    padding-left: 5px;
-}
-
-.info-panel li:before {
-    content: '•';
-    position: absolute;
-    left: -15px;
-    color: var(--accent-color);
-    font-weight: bold;
-}
-
-/* Стили для ссылок в коде */
-.py-string a {
-	color: inherit;
-	text-decoration: none;
-	border-bottom: 1px dashed;
-    transition: opacity 0.2s ease, border-bottom 0.2s ease;
-}
-
-.py-string a:hover {
-	opacity: 0.9;
-    border-bottom: 1px solid;
-}
-
-/* Стили для предупреждения */
-.highlight-warning {
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid var(--accent-color);
-    margin-top: 20px;
-    background-color: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-.contact-info {
-    margin-top: 30px;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-color);
-}
-
-.note {
-    font-style: italic;
-    font-size: 0.9em;
-    opacity: 0.8;
-}
-
-/* Стили для футера */
-footer {
-    margin-top: 30px;
-    padding: 15px 0;
-    width: 100%;
-    text-align: center;
-    font-size: 0.85em;
-    color: var(--info-text-color);
-    border-top: 1px solid var(--border-color);
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-/* *** АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ *** */
-@media (max-width: 900px) {
-	.main-layout {
-		flex-direction: column; /* Колонки друг под другом */
-		gap: 20px; /* Отступ между блоками */
-		max-width: 600px; /* Ограничиваем ширину блоков в вертикальном режиме */
+@keyframes blink {
+	0%,
+	100% {
+		opacity: 1;
 	}
-
-	.editor-container,
-	.info-panel {
-		width: 100%; /* Занимают всю ширину родителя (main-layout) */
-		max-width: 100%; /* Сбрасываем max-width для editor */
-		flex-basis: auto; /* Сбрасываем предпочтительную ширину */
-		flex-shrink: 1; /* Позволяем сжиматься */
-		flex-grow: 0; /* Не нужно расти больше содержимого */
-		min-width: 0; /* Позволяем сжиматься на очень узких экранах */
+	50% {
+		opacity: 0;
 	}
-
-	.info-panel {
-		min-width: 0; /* Сбрасываем min-width */
-	}
-
-	body {
-		padding: 10px; /* Меньший отступ по краям body */
-	}
-
-	.theme-switcher {
-		margin-bottom: 10px; /* Меньший отступ */
-	}
-
-	.code-content {
-		padding: 10px 15px; /* Меньшие внутренние отступы в редакторе на мобильных */
-		font-size: 0.9em; /* Уменьшаем размер шрифта на мобильных */
-	}
-
-	.info-panel {
-		padding: 15px; /* Меньшие внутренние отступы в панели на мобильных */
-	}
-
-	.line-num {
-		width: 30px; /* Чуть меньше ширина для номеров строк на мобильных */
-		margin-right: 10px;
-	}
-    
-    /* Отключаем эффекты наведения на мобильных */
-    .editor-container:hover,
-    .info-panel:hover {
-        transform: none;
-        box-shadow: 0 8px 20px var(--shadow-color);
-    }
-    
-    footer {
-        margin-top: 20px;
-        padding: 10px 0;
-    }
-}
-
-/* Опционально: еще меньшие отступы на совсем маленьких экранах */
-@media (max-width: 480px) {
-	body {
-		padding: 8px;
-	}
-	.main-layout {
-		gap: 15px;
-	}
-	.code-content {
-		padding: 8px 10px;
-		font-size: 0.85em; /* Еще меньше шрифт на маленьких экранах */
-	}
-	.info-panel {
-		padding: 10px;
-	}
-	.line-num {
-		width: 25px; /* Еще меньше ширина для номеров */
-		margin-right: 8px;
-	}
-    
-    .highlight-warning,
-    .contact-info {
-        padding: 10px;
-    }
-    
-    footer {
-        font-size: 0.8em;
-        padding: 8px 0;
-    }
-}
-
-/* Стилизация скроллбара (для editor и info-panel) */
-.editor-container::-webkit-scrollbar,
-.info-panel::-webkit-scrollbar,
-.code-content::-webkit-scrollbar,
-.code-content div::-webkit-scrollbar {
-	height: 6px;
-	width: 6px;
-	background-color: transparent;
-}
-
-.editor-container::-webkit-scrollbar-thumb,
-.info-panel::-webkit-scrollbar-thumb,
-.code-content::-webkit-scrollbar-thumb,
-.code-content div::-webkit-scrollbar-thumb {
-	background-color: #555;
-	border-radius: 3px;
-}
-
-body.light-theme .editor-container::-webkit-scrollbar-thumb,
-body.light-theme .info-panel::-webkit-scrollbar-thumb,
-body.light-theme .code-content::-webkit-scrollbar-thumb,
-body.light-theme .code-content div::-webkit-scrollbar-thumb {
-	background-color: #ccc; /* Цвет в светлой теме */
-}
-
-.editor-container::-webkit-scrollbar-thumb:hover,
-.info-panel::-webkit-scrollbar-thumb:hover,
-.code-content::-webkit-scrollbar-thumb:hover,
-.code-content div::-webkit-scrollbar-thumb:hover {
-	background-color: #777;
-}
-
-/* Стилизация скроллбара (Firefox) */
-.editor-container,
-.info-panel,
-.code-content,
-.code-content div {
-	scrollbar-width: thin;
-	scrollbar-color: #555 transparent;
-}
-
-body.light-theme .editor-container,
-body.light-theme .info-panel,
-body.light-theme .code-content,
-body.light-theme .code-content div {
-	scrollbar-color: #ccc transparent;
-}
-
-/* Анимация для курсора */
-.typing-cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.2em;
-    background-color: var(--accent-color);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 1s step-end infinite;
 }
